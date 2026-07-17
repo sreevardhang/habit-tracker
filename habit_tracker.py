@@ -1,5 +1,10 @@
+import json
 
-habits = []
+try:
+    with open('habits.json','r') as rfile:
+        habitdata = json.load(rfile)
+except FileNotFoundError:
+    habitdata = []
 
 print('Habit Tracker')
 
@@ -8,6 +13,9 @@ user_input = input('Enter a habit, format -- add <habit>: ')
 inputsplit = user_input.split()
 
 if inputsplit[0] == 'add':
-    habits.append(inputsplit[1])
+    habitdata.append(inputsplit[1])
 
-print("Habits: ", habits)
+with open('habits.json','w') as wfile:
+    json.dump(habitdata,wfile)
+
+print("Habits: ", habitdata)
