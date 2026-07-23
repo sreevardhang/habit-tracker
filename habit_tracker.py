@@ -23,6 +23,8 @@ while True:
         else:
             print("Habit already added!")
     elif command.lower() == 'done':
+        if len(inputsplit) == 2:
+            habit_name = inputsplit[1]
         if habit_name in habitdata:
             habitdata[habit_name].append(str(datetime.date.today()))
         else:
