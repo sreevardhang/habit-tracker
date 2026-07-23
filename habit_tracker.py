@@ -1,19 +1,41 @@
 import json
+import datetime
 
 try:
     with open('habits.json','r') as rfile:
         habitdata = json.load(rfile)
 except FileNotFoundError:
-    habitdata = []
+    habitdata = {}
 
 print('Habit Tracker')
 
-user_input = input('Enter a habit, format -- add <habit>: ')
+while True:
+    user_input = input('Enter command: ')
 
-inputsplit = user_input.split()
+    inputsplit = user_input.split()
+    command = inputsplit[0]
 
-if inputsplit[0] == 'add':
-    habitdata.append(inputsplit[1])
+    if command.lower() == 'add':
+        if len(inputsplit) == 2:
+            habit_name = inputsplit[1]
+        if habit_name not in habitdata:
+            habitdata[habit_name] = []
+        else:
+            print("Habit already added!")
+    elif command.lower() == 'done':
+        if habit_name in habitdata:
+            habitdata[habit_name].append(str(datetime.date.today()))
+        else:
+            print("Habit not found. Add it first")
+    elif command.lower() == 'list':
+        if not habitdata:
+            print("List is empty. Add habits!")
+        else:
+            for key, value in habitdata.items():
+                print(f"Habit Name: {key} | Date Completed: {value}")
+    elif command.lower() == 'exit':
+        print("Exiting loop..")
+        break
 
 with open('habits.json','w') as wfile:
     json.dump(habitdata,wfile)
