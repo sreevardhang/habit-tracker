@@ -31,15 +31,20 @@ while True:
             print("Habit not found. Add it first")
     elif command.lower() == 'list':
         if not habitdata:
-            print("List is empty. Add habits!")
+            print("List is empty. Add some habits!")
         else:
+            print(f"{'Habit':<15}{'Times Done':<12}{'Last Done':<12}")
+            print('-' * 39)
+
             for key, value in habitdata.items():
-                print(f"Habit Name: {key} | Date Completed: {value}")
+                #print(f"Habit Name: {key} | Date Completed: {value}")
+                if not value:
+                    print(f"{key:<15}{'0':<12}{'Never':<12}")
+                else:
+                    print(f"{key:<15}{len(value):<12}{value[-1]:<12}")
     elif command.lower() == 'exit':
         print("Exiting loop..")
         break
 
 with open('habits.json','w') as wfile:
     json.dump(habitdata,wfile)
-
-print("Habits: ", habitdata)
